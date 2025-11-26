@@ -35,12 +35,13 @@ Mensagem enviada
 
 Construção do Contexto
 É montado um objeto JSON contendo:
-
+``` json
 {
   "Cliente": "<nome>",
   "Mensagem": "<mensagem>",
   "Método": "SmartLocker"
 }
+
 
 
 Processamento com IA
