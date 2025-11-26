@@ -17,7 +17,7 @@ services:
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=mequizap
       - DB_POSTGRESDB_USER=usuario
-      - DB_POSTGRESDB_PASSWORD=senha
+      - DB_POSTGRESDB_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=redis 
       - REDIS_PORT=6379
     depends_on:
@@ -34,7 +34,7 @@ services:
     container_name: mequizap-db
     environment:
       - POSTGRES_USER=usuario
-      - POSTGRES_PASSWORD=senha
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=mequizap 
     ports:
       - "5435:5432" 
@@ -76,7 +76,7 @@ services:
       - DOCKER_ENV=true
       - DEBUG=true
       - CONFIG_SESSION_PHONE_VERSION=2.3000.1030349573
-      - AUTHENTICATION_API_KEY=0R10NdrAfl2sc3IozIarMSCG
+      - AUTHENTICATION_API_KEY=${API_KEY_SERVICE_EVOLUTION}
       
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql

@@ -112,7 +112,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "0R10NdrAfl2sc3IozIarMSCG"
+              "value": "API_KEY_SERVICE_EVOLUTION"
             }
           ]
         },
@@ -186,7 +186,7 @@
             "instance": "n8n",
             "data": {
               "key": {
-                "remoteJid": "555491997708@s.whatsapp.net",
+                "remoteJid": "000000000000@s.whatsapp.net",
                 "remoteJidAlt": "3066707357809@lid",
                 "fromMe": true,
                 "id": "3EB03F1A585C0469B17DDB",
@@ -205,9 +205,9 @@
             },
             "destination": "http://n8n:5678/webhook/wpp",
             "date_time": "2025-11-25T08:12:52.468Z",
-            "sender": "555491997708@s.whatsapp.net",
+            "sender": "000000000000@s.whatsapp.net",
             "server_url": "http://localhost:8080",
-            "apikey": "CAD375BFEDBF-497F-B3F1-E9B07FC543B2"
+            "apikey": "API_KEY_SERVICE_EVOLUTION_B"
           },
           "webhookUrl": "http://localhost:5678/webhook/wpp",
           "executionMode": "production"
@@ -218,7 +218,7 @@
       {
         "json": {
           "nome": "Mauricio",
-          "telefone": "555491997708@s.whatsapp.net",
+          "telefone": "000000000000@s.whatsapp.net",
           "mensagem": "Bom dia!"
         }
       }
@@ -233,7 +233,7 @@
     "Edit Fields1": [
       {
         "json": {
-          "number": "555491997708@s.whatsapp.net",
+          "number": "000000000000@s.whatsapp.net",
           "textMessage": {
             "text": "Olá, Maurício! Bom dia! 👋 Que ótimo ter você aqui no MéquiZap!\n\nEstamos prontos para te ajudar a fazer seu pedido e retirar rapidinho no SmartLocker. Para começarmos, qual lanche você está com vontade de pedir hoje? 🍔🍟🥤 Me conta!"
           }
