@@ -1,36 +1,33 @@
-MequiZap – Fluxo Inicial
+# MequiZap – Fluxo Inicial
 
 Atendimento automatizado via WhatsApp para pedidos com retirada em SmartLockers do McDonald's, utilizando n8n, Evolution API e IA generativa.
 
-📌 Visão Geral
+
+## 📌 Visão Geral
 
 O MequiZap automatiza o atendimento ao cliente pelo WhatsApp, guiando o usuário desde a primeira mensagem até a escolha do produto.
 O fluxo recebe mensagens, processa com IA e envia respostas naturais e personalizadas.
 
 Este documento descreve o fluxo inicial implementado no n8n.
 
-🏗️ Arquitetura Resumida
+
+## 🏗️ Arquitetura Resumida
 
 Evolution API – Gateway para envio e recebimento de mensagens WhatsApp.
-
 n8n – Orquestração do fluxo e integração entre componentes.
-
 IA (Google Gemini) – Produz respostas humanizadas para atendimento.
-
 Memória de Conversa – Mantém contexto usando o número do cliente.
 
-🔄 Funcionamento do Fluxo
+
+## 🔄 Funcionamento do Fluxo
 
 Recebimento da Mensagem
 A Evolution API envia eventos para o webhook do n8n (/webhook/wpp).
 
-Extração dos Dados
+*Extração dos Dados*
 O fluxo captura:
-
 Nome do cliente
-
 Telefone
-
 Mensagem enviada
 
 Construção do Contexto
@@ -55,17 +52,17 @@ A resposta é enviada via Evolution API:
 
 POST /message/sendText/n8n
 
-🧠 Memória da Conversa
+
+## 🧠 Memória da Conversa
 
 O fluxo utiliza um buffer de memória identificado pelo número do cliente, permitindo:
 
 Continuidade natural da conversa
-
 Personalização persistente
-
 Respostas mais coerentes em interações longas
 
-📦 Componentes do Fluxo
+
+## 📦 Componentes do Fluxo
 
 Webhook (entrada)
 
@@ -79,7 +76,8 @@ Memory Buffer – Histórico da conversa
 
 HTTP Request – Envio de mensagens ao WhatsApp
 
-🔐 Boas Práticas
+
+## 🔐 Boas Práticas
 
 Armazene credenciais em variáveis de ambiente
 
@@ -89,7 +87,8 @@ Use HTTPS sempre que possível
 
 Restrinja o acesso à Evolution API
 
-▶️ Como Executar
+
+## ▶️ Como Executar
 
 Suba sua stack Docker:
 
