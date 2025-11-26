@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=db
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=mequizap
+      - DB_POSTGRESDB_USER=usuario
+      - DB_POSTGRESDB_PASSWORD=senha
+      - REDIS_HOST=redis 
+      - REDIS_PORT=6379
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - projeto-mequizap-network
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  db:
+    image: postgres:15-alpine 
+    restart: always
+    container_name: mequizap-db
+    environment:
+      - POSTGRES_USER=usuario
+      - POSTGRES_PASSWORD=senha
+      - POSTGRES_DB=mequizap 
+    ports:
+      - "5435:5432" 
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U usuario -d mequizap"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - projeto-mequizap-network
+
+  redis:
+    image: redis:alpine3.22
+    container_name: mequizap-redis
+    command: redis-server --appendonly yes 
+    volumes:
+      - redis_data_mequizap:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - projeto-mequizap-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"] 
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  evolution-api:
+    container_name: mequizap-evolution-api
+    image: evoapicloud/evolution-api:homolog
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_URL=http://localhost:8080
+      - DOCKER_ENV=true
+      - DEBUG=true
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1030349573
+      - AUTHENTICATION_API_KEY=0R10NdrAfl2sc3IozIarMSCG
+      
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://usuario:senha@db:5432/evolution
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+      - DATABASE_SAVE_DATA_LABELS=true
+      - DATABASE_SAVE_DATA_HISTORIC=false
+      - DATABASE_SAVE_IS_ON_WHATSAPP=true
+      - DATABASE_SAVE_IS_ON_WHATSAPP_DAYS=1
+      - DATABASE_DELETE_MESSAGE=true
+
+      - CACHE_REDIS_ENABLED=true       
+      - CACHE_REDIS_URI=redis://redis:6379/0 
+      - CACHE_REDIS_PREFIX_KEY=evolution 
+      - CACHE_REDIS_SAVE_INSTANCES=true 
+      - CACHE_LOCAL_ENABLED=false
+
+    depends_on:
+      db:
+        condition: service_healthy 
+      redis: 
+        condition: service_healthy
+    networks:
+      - projeto-mequizap-network
+
+volumes:
+  db_data:
+  n8n_data:
+  redis_data_mequizap: 
+
+networks:
+  projeto-mequizap-network:
+    driver: bridge
